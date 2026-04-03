@@ -39,17 +39,43 @@ h1 {
 /* Buttons allgemein */
 button {
   margin: 5px;
-  padding: 10px 15px;
+  padding: 12px 18px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #2c2c2c;
   color: white;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
+
+  transition: all 0.2s ease;
 }
 
+/* Hover */
 button:hover {
   background: #444;
+}
+
+/* Gassi Buttons */
+button[onclick*="kaka"] {
+  background: #5a3b2e;
+}
+
+button[onclick*="pipi"] {
+  background: #2e4a5a;
+}
+
+button[onclick*="start"] {
+  background: #2e5a3a;
+}
+
+button[onclick*="end"] {
+  background: #5a2e2e;
+}
+
+/* Klick Effekt (sehr wichtig für App Gefühl) */
+button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 10px #0ff;
 }
 
 /* Login */
