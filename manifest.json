@@ -1,6 +1,6 @@
 {
-  "name": "ESP32 Monitor",
-  "short_name": "ESP32",
+  "name": "DoorWatcherChico",
+  "short_name": "Chico",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#111111",
