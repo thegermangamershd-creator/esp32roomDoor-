@@ -151,11 +151,12 @@ canvas {
 
 /* Logo Animation */
 #splashLogo {
-  width: 180px; /* größer */
+  width: 60vw;          /* 🔥 passt sich Handy an */
+  max-width: 300px;     /* nicht zu riesig */
+  
   animation: pop 0.6s ease-out, fadeIn 0.6s ease-in;
   will-change: transform, opacity;
 }
-
 /* Pop Effekt */
 @keyframes pop {
   0% { transform: scale(0); }
