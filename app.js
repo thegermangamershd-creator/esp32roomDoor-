@@ -76,7 +76,7 @@ async function loadWeather() {
 
     // aktuelle Daten
     const currentRes = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`,
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=de&appid=${apiKey}`,
     );
 
     const current = await currentRes.json();
@@ -88,7 +88,7 @@ async function loadWeather() {
 
     // Forecast (3h Schritte)
     const forecastRes = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`,
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&lang=de&appid=${apiKey}`,
     );
 
     const forecast = await forecastRes.json();
