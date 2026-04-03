@@ -3,13 +3,17 @@ body {
   color: white;
   font-family: Arial, sans-serif;
   text-align: center;
-  margin: 0;
+  margin: auto;
   padding: 10px;
+
+  max-width: 500px;   /* 📱 App Layout */
+  font-size: 16px;
 }
 
 /* Überschrift */
 h1 {
   margin-top: 10px;
+  font-size: 24px;
 }
 
 /* Navigation */
@@ -27,10 +31,6 @@ h1 {
   cursor: pointer;
 }
 
-#nav button:hover {
-  background: #333;
-}
-
 /* Tabs */
 .tab {
   margin-top: 20px;
@@ -38,14 +38,18 @@ h1 {
 
 /* 🔥 Buttons allgemein */
 button {
-  margin: 5px;
-  padding: 12px 18px;
+  margin: 6px auto;
+  padding: 14px 18px;
   border: none;
   border-radius: 12px;
   background: #2c2c2c;
   color: white;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
+
+  width: 80%;
+  max-width: 300px;
+
   transition: all 0.2s ease;
 }
 
@@ -60,7 +64,7 @@ button:active {
   box-shadow: 0 0 10px #0ff;
 }
 
-/* 🎯 Gassi Buttons Farben */
+/* 🎯 Gassi Buttons */
 button[onclick*="kaka"] {
   background: #5a3b2e;
 }
@@ -77,35 +81,29 @@ button[onclick*="end"] {
   background: #5a2e2e;
 }
 
-/* 🔐 LOGIN (zentriert wie App) */
+/* 🔐 LOGIN */
 #login {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 60vh;
+  height: 65vh;
 }
 
-/* Login Inputs */
+/* Inputs */
 #login input {
-  display: block;
-  margin: 10px auto;
-  padding: 12px;
-  width: 250px;
+  margin: 10px;
+  padding: 14px;
+  width: 80%;
+  max-width: 300px;
   border-radius: 10px;
   border: none;
   font-size: 16px;
 }
 
-/* Login Button */
-#login button {
-  width: 180px;
-  margin-top: 10px;
-}
-
 /* Gassi Timer */
 #gassiTime {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
 }
 
@@ -113,10 +111,9 @@ button[onclick*="end"] {
 pre {
   text-align: left;
   background: #1a1a1a;
-  padding: 10px;
+  padding: 12px;
   border-radius: 10px;
-  max-width: 300px;
-  margin: auto;
+  max-width: 100%;
   overflow-x: auto;
 }
 
@@ -125,6 +122,7 @@ canvas {
   margin-top: 15px;
   background: #fff;
   border-radius: 10px;
+  width: 100% !important;
 }
 
 /* 🚀 SPLASH SCREEN */
@@ -149,51 +147,34 @@ canvas {
   touch-action: none;
 }
 
-/* Logo Animation */
+/* 🔥 GROßES LOGO */
 #splashLogo {
-  width: 60vw;          /* 🔥 passt sich Handy an */
-  max-width: 300px;     /* nicht zu riesig */
-  
+  width: 60vw;         /* 📱 skaliert automatisch */
+  max-width: 320px;
+
   animation: pop 0.6s ease-out, fadeIn 0.6s ease-in;
   will-change: transform, opacity;
 }
-/* Pop Effekt */
+
+/* Animation */
 @keyframes pop {
   0% { transform: scale(0); }
   60% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
 
-/* Fade-In */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* 📱 Mobile Optimierung */
+/* 📱 Mobile extra */
 @media (max-width: 600px) {
+  h1 {
+    font-size: 22px;
+  }
 
   #login {
     height: 70vh;
-  }
-
-  #login input {
-    width: 80%;
-  }
-
-  #login button {
-    width: 60%;
-  }
-
-  button {
-    width: 90%;
-  }
-
-  canvas {
-    width: 100% !important;
-  }
-
-  #splashLogo {
-    width: 180px;
   }
 }
