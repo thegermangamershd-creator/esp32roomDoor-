@@ -38,14 +38,16 @@ window.login = function () {
   const password = document.getElementById("password").value;
 
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      document.getElementById("login").style.display = "none";
-      document.getElementById("nav").style.display = "block";
+    ..then(() => {
+  document.getElementById("login").style.display = "none";
 
-      showTab("dashboard");
-      loadData();
-      loadWeather();
-    })
+  // 🔥 jetzt anzeigen
+  document.getElementById("topBar").style.display = "flex";
+
+  showTab("dashboard");
+  loadData();
+  loadWeather();
+})
     .catch((e) => alert(e.message));
 };
 
