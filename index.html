@@ -1,97 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <title>ESP32 Monitor</title>
+    <head>
+        <meta charset="UTF-8" />
+        <title>ESP32 Monitor</title>
 
-  <!-- ICON -->
-  <link rel="icon" href="icon.png">
-  <link rel="apple-touch-icon" href="icon.png">
-  <link rel="manifest" href="manifest.json">
+        <!-- 🔥 PWA / ICON -->
+        <link rel="icon" type="image/png" sizes="32x32" href="icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="icon.png" />
+        <link rel="manifest" href="manifest.json" />
+        <meta name="theme-color" content="#111111" />
 
-  <!-- STYLE -->
-  <link rel="stylesheet" href="style.css">
+        <!-- STYLE -->
+        <link rel="stylesheet" href="style.css" />
 
-  <!-- CHART -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+        <!-- CHART -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
 
-<body>
+    <body>
+        <h1>ESP32 Raum Monitor</h1>
 
-<h1>ESP32 Raum Monitor</h1>
+        <!-- LOGIN -->
+        <div id="login">
+            <input id="email" placeholder="Email" />
+            <input id="password" type="password" placeholder="Passwort" />
+            <button onclick="login()">Login</button>
+        </div>
 
-<!-- LOGIN -->
-<div id="login">
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Passwort">
-  <button onclick="login()">Login</button>
-</div>
+        <!-- NAV -->
+        <div id="nav" style="display: none">
+            <button onclick="showTab('dashboard')">🏠 Dashboard</button>
+            <button onclick="showTab('weather')">🌦️ Wetter</button>
+            <button onclick="showTab('gassi')">🐕 Gassi</button>
+            <button onclick="showTab('stats')">📊 Statistik</button>
+        </div>
 
-<!-- NAV -->
-<div id="nav" style="display:none;">
-  <button onclick="showTab('dashboard')">Dashboard</button>
-  <button onclick="showTab('weather')">Wetter</button>
-  <button onclick="showTab('gassi')">Gassi</button>
-  <button onclick="showTab('stats')">Statistik</button>
-</div>
+        <!-- DASHBOARD -->
+        <div id="dashboard" class="tab" style="display: none">
+            <h2>Dashboard</h2>
 
-<!-- DASHBOARD -->
-<div id="dashboard" class="tab" style="display:none;">
-  <h2>Dashboard</h2>
+            <p>🌡️ Temp: <span id="temp">-</span></p>
+            <p>💧 Feuchte: <span id="hum">-</span></p>
+            <p>📊 Klima: <span id="klima">-</span></p>
+            <p>🚶 Bewegung: <span id="motion">-</span></p>
 
-  <p>🌡️ Temp: <span id="temp">-</span></p>
-  <p>💧 Feuchte: <span id="hum">-</span></p>
-  <p>📊 Klima: <span id="klima">-</span></p>
-  <p>🚶 Bewegung: <span id="motion">-</span></p>
+            <h3>💡 PWM Steuerung</h3>
 
-  <h3>PWM Steuerung</h3>
-  <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
-    <img id="pwmIcon" src="icon.png" width="30">
-    <input type="range" min="0" max="255" id="pwmSlider"
-           oninput="setPWM(this.value)">
-  </div>
-  <p>Wert: <span id="pwmValue">0</span></p>
-</div>
+            <div
+                style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                "
+            >
+                <img id="pwmIcon" src="icon.png" width="30" height="30" />
 
-<!-- WETTER -->
-<div id="weather" class="tab" style="display:none;">
-  <h2>🌦️ Wetter</h2>
-  <p>Temp: <span id="wTemp"></span>°C</p>
-  <p>Status: <span id="wDesc"></span></p>
-  <p id="jackeHinweis"></p>
-</div>
+                <input
+                    type="range"
+                    min="0"
+                    max="255"
+                    id="pwmSlider"
+                    oninput="setPWM(this.value)"
+                />
+            </div>
 
-<!-- GASSI -->
-<div id="gassi" class="tab" style="display:none;">
-  <h2>🐕 Gassi</h2>
+            <p>Wert: <span id="pwmValue">0</span></p>
+        </div>
 
-  <button onclick="startGassi()">Start</button>
-  <button onclick="logGassi('pipi')">💧</button>
-  <button onclick="logGassi('kaka')">💩</button>
-  <button onclick="endGassi()">Ende</button>
+        <!-- WETTER -->
+        <div id="weather" class="tab" style="display: none">
+            <h2>🌦️ Wetter</h2>
 
-  <p>Dauer: <span id="gassiTime">0</span> min</p>
+            <p>🌡️ Temp: <span id="wTemp">-</span> °C</p>
+            <p>☁️ Status: <span id="wDesc">-</span></p>
 
-  <button onclick="exportCSV()">CSV Export</button>
-</div>
+            <p id="jackeHinweis" style="color: lightblue"></p>
+        </div>
 
-<!-- STATISTIK -->
-<div id="stats" class="tab" style="display:none;">
-  <h2>📊 Statistik</h2>
+        <!-- GASSI -->
+        <div id="gassi" class="tab" style="display: none">
+            <h2>🐕 Gassi</h2>
 
-  <button onclick="loadStats()">Statistik laden</button>
+            <button onclick="startGassi()">▶️ Start</button>
+            <button onclick="logGassi('pipi')">💧 Pipi</button>
+            <button onclick="logGassi('kaka')">💩 Kaka</button>
+            <button onclick="endGassi()">⏹️ Ende</button>
 
-  <h3>Monatsübersicht</h3>
-  <pre id="monthStats"></pre>
+            <p>Dauer: <span id="gassiTime">0</span> min</p>
 
-  <h3>Durchschnitt</h3>
-  <p id="avgStats"></p>
+            <button onclick="exportCSV()">📄 CSV Export</button>
+        </div>
 
-  <h3>Diagramm</h3>
-  <canvas id="chart" width="300" height="150"></canvas>
-</div>
+        <!-- STATISTIK -->
+        <div id="stats" class="tab" style="display: none">
+            <h2>📊 Statistik</h2>
 
-<script type="module" src="app.js"></script>
+            <button onclick="loadStats()">📥 Statistik laden</button>
 
-</body>
+            <h3>📅 Monatsübersicht</h3>
+            <pre id="monthStats"></pre>
+
+            <h3>📈 Durchschnitt</h3>
+            <p id="avgStats"></p>
+
+            <h3>📊 Diagramm</h3>
+            <canvas id="chart" width="300" height="150"></canvas>
+        </div>
+
+        <!-- SCRIPT -->
+        <script type="module" src="app.js"></script>
+    </body>
 </html>
