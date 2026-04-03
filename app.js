@@ -10,10 +10,9 @@ import {
 import {
   getAuth,
   signInWithEmailAndPassword,
-  signOut,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// 🔥 HIER EINTRAGEN
+// 🔥 FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyAxqkp6klBJtGJyF6XMAxEzCyVwwy84B_w",
   authDomain: "door-watcher.firebaseapp.com",
@@ -22,8 +21,11 @@ const firebaseConfig = {
   projectId: "door-watcher",
 };
 
+// 🔥 GOOGLE SCRIPT URL
 const scriptURL =
   "https://script.google.com/macros/s/AKfycbxt6Pmj65oBojiiD1r7ADnDHgHJDBI2BC640ThrXyGCWCTJonVmeJxLsr-AR_NYrSUF/exec";
+
+// 🌦️ WETTER API
 const apiKey = "f4254125e68a1402e44bf932d8939722";
 
 const app = initializeApp(firebaseConfig);
@@ -32,11 +34,10 @@ const auth = getAuth(app);
 
 // LOGIN
 window.login = function () {
-  signInWithEmailAndPassword(
-    auth,
-    document.getElementById("email").value,
-    document.getElementById("password").value,
-  )
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
     .then(() => {
       document.getElementById("login").style.display = "none";
       document.getElementById("nav").style.display = "block";
@@ -58,53 +59,91 @@ window.showTab = function (tab) {
 function loadData() {
   onValue(ref(db, "live"), (snap) => {
     const d = snap.val() || {};
-    temp.innerText = d.temp || "-";
-    hum.innerText = d.humidity || "-";
-    klima.innerText = d.klima || "-";
-    motion.innerText = d.motion ? "JA" : "NEIN";
+
+    document.getElementById("temp").innerText = d.temp || "-";
+    document.getElementById("hum").innerText = d.humidity || "-";
+    document.getElementById("klima").innerText = d.klima || "-";
+    document.getElementById("motion").innerText = d.motion ? "JA" : "NEIN";
   });
 }
 
-// PWM
-window.setPWM = function (val) {
-  pwmValue.innerText = val;
-
-  const icon = document.getElementById("pwmIcon");
-  if (icon) {
-    icon.style.filter = `brightness(${0.5 + val / 255})`;
-    icon.style.boxShadow = `0 0 ${val / 10}px yellow`;
-  }
-
-  set(ref(db, "control/pwm"), Number(val));
-};
-
 // WETTER
 async function loadWeather() {
-  const res = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=Frankfurt&units=metric&appid=${apiKey}`,
-  );
-  const data = await res.json();
+  try {
+    // Koordinaten für Bischheim RLP
+    const lat = 49.766;
+    const lon = 8.083;
 
-  const t = data.main.temp;
-  wTemp.innerText = t.toFixed(1);
-  wDesc.innerText = data.weather[0].description;
+    // aktuelle Daten
+    const currentRes = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`,
+    );
 
-  jackeHinweis.innerText = t < 6 ? "❄️ Unter 6°C – Chico Jacke!" : "";
+    const current = await currentRes.json();
+
+    const tempNow = current.main.temp;
+
+    document.getElementById("wTemp").innerText = tempNow.toFixed(1);
+    document.getElementById("wDesc").innerText = current.weather[0].description;
+
+    // Forecast (3h Schritte)
+    const forecastRes = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`,
+    );
+
+    const forecast = await forecastRes.json();
+
+    // 👉 finde morgen ca. 06–09 Uhr
+    let morningTemp = null;
+
+    for (let entry of forecast.list) {
+      const date = new Date(entry.dt_txt);
+      const hour = date.getHours();
+
+      if (hour >= 6 && hour <= 9) {
+        morningTemp = entry.main.temp;
+        break;
+      }
+    }
+
+    document.getElementById("wTempMorning").innerText = morningTemp
+      ? morningTemp.toFixed(1)
+      : "-";
+
+    // 🧥 JACKEN LOGIK
+    let text = "";
+
+    if (tempNow < 6) {
+      text += "❄️ Jetzt unter 6°C – Chico Jacke anziehen!\n";
+    }
+
+    if (morningTemp !== null && morningTemp < 6) {
+      text += "🌅 Morgen früh unter 6°C – Chico Jacke!";
+    }
+
+    document.getElementById("jackeHinweis").innerText = text;
+  } catch (e) {
+    console.log("Wetter Fehler:", e);
+  }
 }
 
-// GASSI
-let start, timer;
+// 🐕 GASSI
+let start = null;
+let timer = null;
 
 window.startGassi = function () {
   start = Date.now();
+
   timer = setInterval(() => {
-    gassiTime.innerText = Math.floor((Date.now() - start) / 60000);
+    document.getElementById("gassiTime").innerText = Math.floor(
+      (Date.now() - start) / 60000,
+    );
   }, 1000);
 };
 
 window.logGassi = function (type) {
   push(ref(db, "gassi/logs"), {
-    type,
+    type: type,
     time: new Date().toISOString(),
   });
 };
@@ -121,14 +160,21 @@ window.endGassi = async function () {
     duration,
   };
 
+  // Firebase speichern
   push(ref(db, "gassi/sessions"), data);
 
-  await fetch(scriptURL, {
-    method: "POST",
-    body: JSON.stringify(data),
-  });
+  // Google Drive senden
+  try {
+    await fetch(scriptURL, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
 
-  alert("Gespeichert ✅");
+    alert("Gespeichert + Drive Upload ✅");
+  } catch (e) {
+    alert("Drive Fehler ❌");
+    console.log(e);
+  }
 };
 
 // CSV EXPORT
@@ -173,13 +219,15 @@ window.loadStats = async function () {
   Object.keys(days).forEach((d) => {
     out += `${d} → ${days[d].count}x (${days[d].duration}min)\n`;
   });
-  monthStats.innerText = out;
+
+  document.getElementById("monthStats").innerText = out;
 
   // AVG
   const avg = (
     sessions.reduce((a, b) => a + b.duration, 0) / sessions.length
   ).toFixed(1);
-  avgStats.innerText = `Ø Dauer: ${avg} min`;
+
+  document.getElementById("avgStats").innerText = `Ø Dauer: ${avg} min`;
 
   // CHART
   const ctx = document.getElementById("chart");
@@ -202,6 +250,7 @@ window.loadStats = async function () {
   const logs = logSnap.val();
 
   let hours = [];
+
   Object.values(logs || {}).forEach((l) => {
     if (l.type === "kaka") {
       hours.push(new Date(l.time).getHours());
@@ -210,6 +259,8 @@ window.loadStats = async function () {
 
   if (hours.length) {
     const avgH = hours.reduce((a, b) => a + b, 0) / hours.length;
-    avgStats.innerText += ` | 💩 Ø ${avgH.toFixed(1)} Uhr`;
+
+    document.getElementById("avgStats").innerText +=
+      ` | 💩 Ø ${avgH.toFixed(1)} Uhr`;
   }
 };
