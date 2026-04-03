@@ -44,40 +44,25 @@
             <p>📊 Klima: <span id="klima">-</span></p>
             <p>🚶 Bewegung: <span id="motion">-</span></p>
 
-            <h3>💡 PWM Steuerung</h3>
+            <h3>🐕 Schnellzugriff Gassi</h3>
 
-            <div
-                style="
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 10px;
-                "
-            >
-                <img id="pwmIcon" src="icon.png" width="30" height="30" />
-
-                <input
-                    type="range"
-                    min="0"
-                    max="255"
-                    id="pwmSlider"
-                    oninput="setPWM(this.value)"
-                />
-            </div>
-
-            <p>Wert: <span id="pwmValue">0</span></p>
+            <button onclick="startGassi()">▶️ Start</button>
+            <button onclick="endGassi()">⏹️ Stop</button>
         </div>
 
         <!-- WETTER -->
         <div id="weather" class="tab" style="display: none">
             <h2>🌦️ Wetter</h2>
 
-            <p>🌡️ Temp: <span id="wTemp">-</span> °C</p>
+            <p>📍 Standort: Bischheim (RLP)</p>
+
+            <p>🌡️ Jetzt: <span id="wTemp">-</span> °C</p>
             <p>☁️ Status: <span id="wDesc">-</span></p>
 
-            <p id="jackeHinweis" style="color: lightblue"></p>
-        </div>
+            <p>🌅 Morgen 07:00: <span id="wTempMorning">-</span> °C</p>
 
+            <p id="jackeHinweis"></p>
+        </div>
         <!-- GASSI -->
         <div id="gassi" class="tab" style="display: none">
             <h2>🐕 Gassi</h2>
