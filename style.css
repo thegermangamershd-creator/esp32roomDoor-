@@ -36,7 +36,7 @@ h1 {
   margin-top: 20px;
 }
 
-/* Buttons allgemein */
+/* 🔥 Buttons allgemein */
 button {
   margin: 5px;
   padding: 12px 18px;
@@ -55,7 +55,13 @@ button:hover {
   background: #444;
 }
 
-/* Gassi Buttons */
+/* Klick Effekt */
+button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 10px #0ff;
+}
+
+/* 🎯 Gassi Buttons Farben */
 button[onclick*="kaka"] {
   background: #5a3b2e;
 }
@@ -72,12 +78,6 @@ button[onclick*="end"] {
   background: #5a2e2e;
 }
 
-/* Klick Effekt (sehr wichtig für App Gefühl) */
-button:active {
-  transform: scale(0.95);
-  box-shadow: 0 0 10px #0ff;
-}
-
 /* Login */
 #login input {
   display: block;
@@ -86,11 +86,6 @@ button:active {
   width: 200px;
   border-radius: 8px;
   border: none;
-}
-
-/* PWM Slider */
-#pwmSlider {
-  width: 200px;
 }
 
 /* Gassi Timer */
@@ -110,14 +105,14 @@ pre {
   overflow-x: auto;
 }
 
-/* Canvas */
+/* Diagramm */
 canvas {
   margin-top: 15px;
   background: #fff;
   border-radius: 10px;
 }
 
-/* SPLASH SCREEN */
+/* 🚀 SPLASH SCREEN */
 #splash {
   position: fixed;
   top: 0;
@@ -125,44 +120,52 @@ canvas {
   width: 100%;
   height: 100%;
   background: #111;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   z-index: 9999;
+
   opacity: 1;
   transition: opacity 0.5s ease;
+
+  pointer-events: all;
+  touch-action: none;
 }
 
-/* Logo */
+/* Logo Animation */
 #splashLogo {
   width: 120px;
-  animation: pop 0.5s ease-out;
+
+  animation: pop 0.6s ease-out, fadeIn 0.6s ease-in;
+  will-change: transform, opacity;
 }
 
-/* Pop Animation */
+/* Pop Effekt */
 @keyframes pop {
   0% { transform: scale(0); }
   60% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
 
-@keyframes pop {
-  0% { transform: scale(0); }
-  60% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+/* Fade-In */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Mobile Optimierung */
+/* 📱 Mobile Optimierung */
 @media (max-width: 600px) {
-  #pwmSlider {
-    width: 100%;
-  }
-
   #login input {
     width: 90%;
   }
 
   canvas {
     width: 100% !important;
+  }
+
+  button {
+    width: 90%;
   }
 }
