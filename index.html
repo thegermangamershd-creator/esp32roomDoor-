@@ -38,6 +38,7 @@
             <button onclick="showTab('weather')">🌦️ Wetter</button>
             <button onclick="showTab('gassi')">🐕 Gassi</button>
             <button onclick="showTab('stats')">📊 Statistik</button>
+            <button onclick="showTab('med')">💊 Chico Med</button>
         </div>
 
         <!-- DASHBOARD -->
@@ -101,6 +102,14 @@
 
             <h3>📊 Diagramm</h3>
             <canvas id="chart" width="300" height="150"></canvas>
+        </div>
+         <!-- Med -->
+        <div id="med" class="tab" style="display:none;">
+          <h2>💊 Chico Med</h2>
+
+          <p>Globuli Einnahme</p>
+
+          <div id="medList"></div>
         </div>
 
         <!-- SCRIPT -->
