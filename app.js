@@ -263,17 +263,21 @@ window.loadStats = async function () {
     document.getElementById("avgStats").innerText +=
       ` | 💩 Ø ${avgH.toFixed(1)} Uhr`;
   }
-// SPLASH SCREEN LOGIK
+  }; // ← ENDE loadStats()
+
+// 🔥 SPLASH SCREEN (JETZT RICHTIG)
 window.addEventListener("load", () => {
   const splash = document.getElementById("splash");
+
+  if (!splash) return;
 
   setTimeout(() => {
     splash.style.opacity = "0";
 
     setTimeout(() => {
       splash.style.display = "none";
-    }, 500); // nach fade komplett weg
+    }, 500);
 
-  }, 2000); // 👈 2 Sekunden sichtbar
+  }, 2000);
 });
-};
+
