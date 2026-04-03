@@ -263,11 +263,17 @@ window.loadStats = async function () {
     document.getElementById("avgStats").innerText +=
       ` | 💩 Ø ${avgH.toFixed(1)} Uhr`;
   }
-  // SPLASH AUSBLENDEN
+// SPLASH SCREEN LOGIK
 window.addEventListener("load", () => {
+  const splash = document.getElementById("splash");
+
   setTimeout(() => {
-    const splash = document.getElementById("splash");
-    if (splash) splash.style.display = "none";
-  }, 1200);
+    splash.style.opacity = "0";
+
+    setTimeout(() => {
+      splash.style.display = "none";
+    }, 500); // nach fade komplett weg
+
+  }, 2000); // 👈 2 Sekunden sichtbar
 });
 };
