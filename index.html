@@ -1,141 +1,137 @@
 <!doctype html>
 <html lang="de">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="UTF-8" />
-        <title>DoorWatcherChico</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- 🔥 PWA / ICON -->
-        <link rel="icon" type="image/png" sizes="32x32" href="icon.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="icon.png" />
-        <link rel="manifest" href="manifest.json" />
-        <meta name="theme-color" content="#111111" />
+  <title>DoorWatcherChico</title>
 
-        <!-- STYLE -->
-        <link rel="stylesheet" href="style.css" />
+  <!-- PWA -->
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#111111" />
 
-        <!-- CHART -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    </head>
+  <!-- STYLE -->
+  <link rel="stylesheet" href="style.css" />
 
-    <body>
-        <!-- SPLASH SCREEN -->
-        <div id="splash">
-          <img src="icon.png" id="splashLogo">
-        </div>
-        <h1>DoorWatcherChico</h1>
-        <div id="menuWrapper">
-          <button id="menuBtn" onclick="toggleMenu()">⋮</button>
+  <!-- CHART -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
 
-          <div id="menuDropdown" style="display:none;">
-            <button onclick="openTab('dashboard')">🏠 Dashboard</button>
-            <button onclick="openTab('weather')">🌤️ Wetter</button>
-            <button onclick="openTab('gassi')">🐕 Gassi</button>
-            <button onclick="openTab('stats')">📊 Statistik</button>
-            <button onclick="openTab('med')">💊 Chico Med</button>
-          </div>
-        </div>
+<body>
 
-        <!-- LOGIN -->
-        <div id="login">
-            <input id="email" placeholder="Email" />
-            <input id="password" type="password" placeholder="Passwort" />
-            <button onclick="login()">Login</button>
-        </div>
-        <!-- Topbar -->
-        <div id="topBar" style="display:none;">
-
-          <button id="dashboardBtn" onclick="showTab('dashboard')">
-            🏠 Dashboard
-          </button>
-
-              <button id="menuBtn" onclick="toggleMenu()">⋮</button>
-
-              <div id="menuDropdown" style="display:none;">
-            <button onclick="openTab('weather')">🌤️ Wetter</button>
-            <button onclick="openTab('gassi')">🐕 Gassi</button>
-            <button onclick="openTab('stats')">📊 Statistik</button>
-            <button onclick="openTab('med')">💊 Chico Med</button>
-          </div>
-
-        </div>
-        <!-- DASHBOARD -->
-        <div id="dashboard" class="tab" style="display:none;">
-          <h2>Dashboard</h2>
-
-          <p>🌡️ Temp: <span id="temp">-</span></p>
-          <p>💧 Feuchte: <span id="hum">-</span></p>
-          <p>📊 Klima: <span id="klima">-</span></p>
-          <p>🚶 Bewegung: <span id="motion">-</span></p>
-
-          <h3>🐕 Gassi Schnellzugriff</h3>
-
-          <button onclick="startGassi()">▶️ Start</button>
-          <button onclick="endGassi()">⏹️ Stop</button>
-
-          <br><br>
-
-          <button onclick="logGassi('pipi')">💧 Pipi</button>
-          <button onclick="logGassi('kaka')">💩 Kaka</button>
-        </div>
-
-        <!-- WETTER -->
-        <div id="weather" class="tab" style="display: none">
-            <h2>🌦️ Wetter</h2>
-
-            <p>📍 Standort: Bischheim (RLP)</p>
-
-            <p>🌡️ Jetzt: <span id="wTemp">-</span> °C</p>
-            <p>☁️ Status: <span id="wDesc">-</span></p>
-
-            <p>🌅 Morgen 07:00: <span id="wTempMorning">-</span> °C</p>
-
-            <p id="jackeHinweis"></p>
-        </div>
-        <!-- GASSI -->
-        <div id="gassi" class="tab" style="display: none">
-            <h2>🐕 Gassi</h2>
-
-            <button onclick="startGassi()">▶️ Start</button>
-            <button onclick="logGassi('pipi')">💧 Pipi</button>
-            <button onclick="logGassi('kaka')">💩 Kaka</button>
-            <button onclick="endGassi()">⏹️ Ende</button>
-
-            <p>Dauer: <span id="gassiTime">0</span> min</p>
-
-            <button onclick="exportCSV()">📄 CSV Export</button>
-        </div>
-
-        <!-- STATISTIK -->
-        <div id="stats" class="tab" style="display: none">
-            <h2>📊 Statistik</h2>
-
-            <button onclick="loadStats()">📥 Statistik laden</button>
-
-            <h3>📅 Monatsübersicht</h3>
-            <pre id="monthStats"></pre>
-
-            <h3>📈 Durchschnitt</h3>
-            <p id="avgStats"></p>
-
-            <h3>📊 Diagramm</h3>
-            <canvas id="chart" width="300" height="150"></canvas>
-        </div>
-         <!-- Med -->
-        <div id="med" class="tab" style="display:none;">
-          <h2>💊 Chico Med</h2>
-
-          <p>Globuli Einnahme</p>
-
-          <p id="medStatus">Heute: 0 / 4 genommen</p>
-          <p id="medNext">Nächste Einnahme: -</p>
-
-          <button onclick="takeNextMed()">➕ Einnahme bestätigen</button>
-
-          <div id="medList"></div>
+<!-- 🔥 SPLASH -->
+<div id="splash">
+  <img src="icon.png" id="splashLogo">
 </div>
 
-        <!-- SCRIPT -->
-        <script type="module" src="app.js"></script>
-    </body>
+<h1>DoorWatcherChico</h1>
+
+<!-- 🔐 LOGIN -->
+<div id="login">
+  <input id="email" placeholder="Email" />
+  <input id="password" type="password" placeholder="Passwort" />
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- 🔝 TOP BAR (APP UI) -->
+<div id="topBar" style="display:none;">
+
+  <button id="dashboardBtn" onclick="showTab('dashboard')">
+    🏠 Dashboard
+  </button>
+
+  <button id="menuBtn" onclick="toggleMenu()">⋮</button>
+
+  <div id="menuDropdown" style="display:none;">
+    <button onclick="openTab('dashboard')">🏠 Dashboard</button>
+    <button onclick="openTab('weather')">🌤️ Wetter</button>
+    <button onclick="openTab('gassi')">🐕 Gassi</button>
+    <button onclick="openTab('stats')">📊 Statistik</button>
+    <button onclick="openTab('med')">💊 Chico Med</button>
+  </div>
+
+</div>
+
+<!-- 🏠 DASHBOARD -->
+<div id="dashboard" class="tab" style="display:none;">
+  <h2>Dashboard</h2>
+
+  <p>🌡️ Temp: <span id="temp">-</span></p>
+  <p>💧 Feuchte: <span id="hum">-</span></p>
+  <p>📊 Klima: <span id="klima">-</span></p>
+  <p>🚶 Bewegung: <span id="motion">-</span></p>
+
+  <h3>🐕 Gassi Schnellzugriff</h3>
+
+  <button onclick="startGassi()">▶️ Start</button>
+  <button onclick="endGassi()">⏹️ Stop</button>
+
+  <br><br>
+
+  <button onclick="logGassi('pipi')">💧 Pipi</button>
+  <button onclick="logGassi('kaka')">💩 Kaka</button>
+</div>
+
+<!-- 🌦️ WETTER -->
+<div id="weather" class="tab" style="display:none;">
+  <h2>🌦️ Wetter</h2>
+
+  <p>📍 Standort: Bischheim (RLP)</p>
+
+  <p>🌡️ Jetzt: <span id="wTemp">-</span> °C</p>
+  <p>☁️ Status: <span id="wDesc">-</span></p>
+
+  <p>🌅 Morgen 07:00: <span id="wTempMorning">-</span> °C</p>
+
+  <p id="jackeHinweis"></p>
+</div>
+
+<!-- 🐕 GASSI -->
+<div id="gassi" class="tab" style="display:none;">
+  <h2>🐕 Gassi</h2>
+
+  <button onclick="startGassi()">▶️ Start</button>
+  <button onclick="logGassi('pipi')">💧 Pipi</button>
+  <button onclick="logGassi('kaka')">💩 Kaka</button>
+  <button onclick="endGassi()">⏹️ Ende</button>
+
+  <p>Dauer: <span id="gassiTime">0</span> min</p>
+
+  <button onclick="exportCSV()">📄 CSV Export</button>
+</div>
+
+<!-- 📊 STATISTIK -->
+<div id="stats" class="tab" style="display:none;">
+  <h2>📊 Statistik</h2>
+
+  <button onclick="loadStats()">📥 Statistik laden</button>
+
+  <h3>📅 Monatsübersicht</h3>
+  <pre id="monthStats"></pre>
+
+  <h3>📈 Durchschnitt</h3>
+  <p id="avgStats"></p>
+
+  <h3>📊 Diagramm</h3>
+  <canvas id="chart"></canvas>
+</div>
+
+<!-- 💊 MED -->
+<div id="med" class="tab" style="display:none;">
+  <h2>💊 Chico Med</h2>
+
+  <p id="medStatus">Heute: 0 / 4 genommen</p>
+  <p id="medNext">Nächste Einnahme: -</p>
+
+  <button onclick="takeNextMed()">➕ Einnahme bestätigen</button>
+
+  <div id="medList"></div>
+</div>
+
+<!-- SCRIPT -->
+<script type="module" src="app.js"></script>
+
+</body>
 </html>
