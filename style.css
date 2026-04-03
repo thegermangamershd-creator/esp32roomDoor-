@@ -116,6 +116,7 @@ canvas {
   background: #fff;
   border-radius: 10px;
 }
+
 /* SPLASH SCREEN */
 #splash {
   position: fixed;
@@ -128,13 +129,21 @@ canvas {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.5s ease;
 }
 
-/* Logo Animation */
+/* Logo */
 #splashLogo {
   width: 120px;
-  transform: scale(0);
-  animation: pop 0.6s ease-out forwards;
+  animation: pop 0.5s ease-out;
+}
+
+/* Pop Animation */
+@keyframes pop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
 @keyframes pop {
