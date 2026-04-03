@@ -40,18 +40,23 @@
         </div>
 
         <!-- DASHBOARD -->
-        <div id="dashboard" class="tab" style="display: none">
-            <h2>Dashboard</h2>
+        <div id="dashboard" class="tab" style="display:none;">
+          <h2>Dashboard</h2>
 
-            <p>🌡️ Temp: <span id="temp">-</span></p>
-            <p>💧 Feuchte: <span id="hum">-</span></p>
-            <p>📊 Klima: <span id="klima">-</span></p>
-            <p>🚶 Bewegung: <span id="motion">-</span></p>
+          <p>🌡️ Temp: <span id="temp">-</span></p>
+          <p>💧 Feuchte: <span id="hum">-</span></p>
+          <p>📊 Klima: <span id="klima">-</span></p>
+          <p>🚶 Bewegung: <span id="motion">-</span></p>
 
-            <h3>🐕 Schnellzugriff Gassi</h3>
+          <h3>🐕 Gassi Schnellzugriff</h3>
 
-            <button onclick="startGassi()">▶️ Start</button>
-            <button onclick="endGassi()">⏹️ Stop</button>
+          <button onclick="startGassi()">▶️ Start</button>
+          <button onclick="endGassi()">⏹️ Stop</button>
+
+          <br><br>
+
+          <button onclick="logGassi('pipi')">💧 Pipi</button>
+          <button onclick="logGassi('kaka')">💩 Kaka</button>
         </div>
 
         <!-- WETTER -->
