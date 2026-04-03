@@ -385,6 +385,19 @@ setInterval(() => {
   }
 }, 30000);
 
+window.toggleMenu = function () {
+  const menu = document.getElementById("menuDropdown");
+
+  menu.style.display =
+    menu.style.display === "block" ? "none" : "block";
+};
+
+// Tab öffnen + Menü schließen
+window.openTab = function (tab) {
+  showTab(tab);
+  document.getElementById("menuDropdown").style.display = "none";
+};
+
 
 
 
