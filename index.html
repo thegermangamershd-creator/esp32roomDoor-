@@ -42,16 +42,23 @@
             <input id="password" type="password" placeholder="Passwort" />
             <button onclick="login()">Login</button>
         </div>
+        <!-- Topbar -->
+        <div id="topBar">
 
-        <!-- NAV -->
-        <div id="nav" style="display: none">
-            <button onclick="showTab('dashboard')">🏠 Dashboard</button>
-            <button onclick="showTab('weather')">🌦️ Wetter</button>
-            <button onclick="showTab('gassi')">🐕 Gassi</button>
-            <button onclick="showTab('stats')">📊 Statistik</button>
-            <button onclick="showTab('med')">💊 Chico Med</button>
+          <button id="dashboardBtn" onclick="showTab('dashboard')">
+            🏠 Dashboard
+          </button>
+
+              <button id="menuBtn" onclick="toggleMenu()">⋮</button>
+
+              <div id="menuDropdown" style="display:none;">
+            <button onclick="openTab('weather')">🌤️ Wetter</button>
+            <button onclick="openTab('gassi')">🐕 Gassi</button>
+            <button onclick="openTab('stats')">📊 Statistik</button>
+            <button onclick="openTab('med')">💊 Chico Med</button>
+          </div>
+
         </div>
-
         <!-- DASHBOARD -->
         <div id="dashboard" class="tab" style="display:none;">
           <h2>Dashboard</h2>
