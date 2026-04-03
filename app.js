@@ -53,6 +53,10 @@ window.login = function () {
 window.showTab = function (tab) {
   document.querySelectorAll(".tab").forEach((t) => (t.style.display = "none"));
   document.getElementById(tab).style.display = "block";
+
+  if (tab === "med") {
+    loadMed();
+  }
 };
 
 // LIVE DATEN
@@ -280,4 +284,77 @@ window.addEventListener("load", () => {
 
   }, 2000);
 });
+
+const medTimes = [8, 11, 15, 18];
+
+// Status speichern (localStorage)
+function getMedStatus() {
+  const today = new Date().toDateString();
+  const data = JSON.parse(localStorage.getItem("med") || "{}");
+
+  if (data.date !== today) {
+    return { date: today, done: {} };
+  }
+
+  return data;
+}
+
+function saveMedStatus(data) {
+  localStorage.setItem("med", JSON.stringify(data));
+}
+
+// UI bauen
+window.loadMed = function () {
+  const container = document.getElementById("medList");
+  container.innerHTML = "";
+
+  let data = getMedStatus();
+
+  medTimes.forEach((h) => {
+    const done = data.done[h];
+
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <p>${h}:00 Uhr</p>
+      <button onclick="takeMed(${h})">
+        ${done ? "✅ genommen" : "❌ offen"}
+      </button>
+    `;
+
+    container.appendChild(div);
+  });
+};
+
+// Klick
+window.takeMed = function (hour) {
+  let data = getMedStatus();
+  data.done[hour] = true;
+  saveMedStatus(data);
+  loadMed();
+};
+
+// Permission anfragen
+Notification.requestPermission();
+
+// Reminder Check jede Minute
+setInterval(() => {
+  const now = new Date();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+
+  const data = getMedStatus();
+
+  medTimes.forEach((h) => {
+    if (hour === h && minute === 0 && !data.done[h]) {
+      new Notification("💊 Chico Med", {
+        body: `${h}:00 Uhr – Globuli nicht genommen!`,
+      });
+    }
+  });
+}, 60000);
+
+
+
+
+
 
