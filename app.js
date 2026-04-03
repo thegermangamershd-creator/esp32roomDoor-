@@ -285,9 +285,10 @@ window.addEventListener("load", () => {
   }, 2000);
 });
 
+// 💊 MED SYSTEM (NEU)
 const medTimes = [8, 11, 15, 18];
 
-// Status speichern (localStorage)
+// Daten holen
 function getMedStatus() {
   const today = new Date().toDateString();
   const data = JSON.parse(localStorage.getItem("med") || "{}");
@@ -299,59 +300,90 @@ function getMedStatus() {
   return data;
 }
 
+// speichern
 function saveMedStatus(data) {
   localStorage.setItem("med", JSON.stringify(data));
 }
 
-// UI bauen
+// nächste offene Zeit
+function getNextMedTime(data) {
+  const now = new Date();
+  const currentHour = now.getHours();
+
+  for (let h of medTimes) {
+    if (!data.done[h] && h >= currentHour) {
+      return h;
+    }
+  }
+
+  return null;
+}
+
+// ➕ Button
+window.takeNextMed = function () {
+  let data = getMedStatus();
+
+  const next = getNextMedTime(data);
+
+  if (next !== null) {
+    data.done[next] = true;
+    saveMedStatus(data);
+    loadMed();
+  }
+};
+
+// UI
 window.loadMed = function () {
   const container = document.getElementById("medList");
   container.innerHTML = "";
 
   let data = getMedStatus();
 
+  let takenCount = Object.keys(data.done).length;
+
+  // STATUS
+  document.getElementById("medStatus").innerText =
+    `Heute: ${takenCount} / 4 genommen`;
+
+  // NEXT
+  const next = getNextMedTime(data);
+
+  if (next !== null) {
+    const now = new Date();
+    const target = new Date();
+    target.setHours(next, 0, 0, 0);
+
+    let diff = Math.floor((target - now) / 60000);
+    if (diff < 0) diff = 0;
+
+    const h = Math.floor(diff / 60);
+    const m = diff % 60;
+
+    document.getElementById("medNext").innerText =
+      `Nächste Einnahme: ${next}:00 Uhr (in ${h}h ${m}min)`;
+  } else {
+    document.getElementById("medNext").innerText =
+      "✅ Alles genommen!";
+  }
+
+  // Liste
   medTimes.forEach((h) => {
     const done = data.done[h];
 
     const div = document.createElement("div");
-    div.innerHTML = `
-      <p>${h}:00 Uhr</p>
-      <button onclick="takeMed(${h})">
-        ${done ? "✅ genommen" : "❌ offen"}
-      </button>
-    `;
-
+    div.innerHTML = `<p>${h}:00 → ${done ? "✅" : "❌"}</p>`;
     container.appendChild(div);
   });
 };
 
-// Klick
-window.takeMed = function (hour) {
-  let data = getMedStatus();
-  data.done[hour] = true;
-  saveMedStatus(data);
-  loadMed();
-};
-
-// Permission anfragen
-Notification.requestPermission();
-
-// Reminder Check jede Minute
+// 🔄 Auto Update
 setInterval(() => {
-  const now = new Date();
-  const hour = now.getHours();
-  const minute = now.getMinutes();
+  const medTab = document.getElementById("med");
 
-  const data = getMedStatus();
-
-  medTimes.forEach((h) => {
-    if (hour === h && minute === 0 && !data.done[h]) {
-      new Notification("💊 Chico Med", {
-        body: `${h}:00 Uhr – Globuli nicht genommen!`,
-      });
-    }
-  });
-}, 60000);
+  if (medTab && medTab.style.display !== "none") {
+    loadMed();
+  }
+}, 30000);
 
 
 
