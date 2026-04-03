@@ -263,4 +263,11 @@ window.loadStats = async function () {
     document.getElementById("avgStats").innerText +=
       ` | 💩 Ø ${avgH.toFixed(1)} Uhr`;
   }
+  // SPLASH AUSBLENDEN
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const splash = document.getElementById("splash");
+    if (splash) splash.style.display = "none";
+  }, 1200);
+});
 };
