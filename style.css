@@ -5,8 +5,7 @@ body {
   text-align: center;
   margin: auto;
   padding: 10px;
-
-  max-width: 500px;   /* 📱 App Layout */
+  max-width: 500px;
   font-size: 16px;
 }
 
@@ -16,27 +15,12 @@ h1 {
   font-size: 24px;
 }
 
-/* Navigation */
-#nav {
-  margin: 15px 0;
-}
-
-#nav button {
-  margin: 5px;
-  padding: 10px 15px;
-  border: none;
-  background: #222;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
 /* Tabs */
 .tab {
   margin-top: 20px;
 }
 
-/* 🔥 Buttons allgemein */
+/* 🔥 Buttons */
 button {
   margin: 6px auto;
   padding: 14px 18px;
@@ -53,33 +37,20 @@ button {
   transition: all 0.2s ease;
 }
 
-/* Hover */
 button:hover {
   background: #444;
 }
 
-/* Klick Effekt */
 button:active {
   transform: scale(0.95);
   box-shadow: 0 0 10px #0ff;
 }
 
-/* 🎯 Gassi Buttons */
-button[onclick*="kaka"] {
-  background: #5a3b2e;
-}
-
-button[onclick*="pipi"] {
-  background: #2e4a5a;
-}
-
-button[onclick*="start"] {
-  background: #2e5a3a;
-}
-
-button[onclick*="end"] {
-  background: #5a2e2e;
-}
+/* 🎯 Spezial Buttons */
+button[onclick*="kaka"] { background: #5a3b2e; }
+button[onclick*="pipi"] { background: #2e4a5a; }
+button[onclick*="start"] { background: #2e5a3a; }
+button[onclick*="end"] { background: #5a2e2e; }
 
 /* 🔐 LOGIN */
 #login {
@@ -90,7 +61,6 @@ button[onclick*="end"] {
   height: 65vh;
 }
 
-/* Inputs */
 #login input {
   margin: 10px;
   padding: 14px;
@@ -101,19 +71,18 @@ button[onclick*="end"] {
   font-size: 16px;
 }
 
-/* Gassi Timer */
+/* 🐕 Gassi Timer */
 #gassiTime {
   font-size: 22px;
   font-weight: bold;
 }
 
-/* Statistik */
+/* 📊 Statistik */
 pre {
   text-align: left;
   background: #1a1a1a;
   padding: 12px;
   border-radius: 10px;
-  max-width: 100%;
   overflow-x: auto;
 }
 
@@ -125,7 +94,7 @@ canvas {
   width: 100% !important;
 }
 
-/* 🚀 SPLASH SCREEN */
+/* 🚀 SPLASH */
 #splash {
   position: fixed;
   top: 0;
@@ -133,27 +102,18 @@ canvas {
   width: 100%;
   height: 100%;
   background: #111;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   z-index: 9999;
-
   opacity: 1;
   transition: opacity 0.5s ease;
-
-  pointer-events: all;
-  touch-action: none;
 }
 
-/* 🔥 GROßES LOGO */
 #splashLogo {
-  width: 60vw;         /* 📱 skaliert automatisch */
-  max-width: 320px;
-
+  width: 65vw;
+  max-width: 340px;
   animation: pop 0.6s ease-out, fadeIn 0.6s ease-in;
-  will-change: transform, opacity;
 }
 
 /* Animation */
@@ -168,70 +128,21 @@ canvas {
   to { opacity: 1; }
 }
 
-/* 📱 Mobile extra */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 22px;
-  }
-
-  #login {
-    height: 70vh;
-  }
-}
-
-/* 📦 Menü Wrapper */
-#menuWrapper {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-/* ⋮ Button */
-#menuBtn {
-  width: 40px;
-  height: 40px;
-  font-size: 22px;
-  border-radius: 50%;
-  background: #222;
-}
-
-/* Dropdown */
-#menuDropdown {
-  position: absolute;
-  right: 0;
-  top: 50px;
-
-  background: #1a1a1a;
-  border-radius: 10px;
-  padding: 10px;
-
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-
-/* Menü Buttons */
-#menuDropdown button {
-  display: block;
-  width: 150px;
-  margin: 5px 0;
-}
-
 /* 🔝 TOP BAR */
 #topBar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 5px;
   margin-bottom: 15px;
 }
 
-/* 🏠 Dashboard Button (7/8) */
+/* Dashboard Button */
 #dashboardBtn {
   flex: 7;
   padding: 12px;
-  font-size: 16px;
 }
 
-/* ⋮ Menü Button (1/8) */
+/* ⋮ Menü */
 #menuBtn {
   flex: 1;
   max-width: 50px;
@@ -253,9 +164,19 @@ canvas {
   z-index: 1000;
 }
 
-/* Dropdown Buttons */
 #menuDropdown button {
   display: block;
   width: 150px;
   margin: 5px 0;
+}
+
+/* 📱 Mobile */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 22px;
+  }
+
+  #login {
+    height: 70vh;
+  }
 }
