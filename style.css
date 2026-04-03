@@ -1,0 +1,107 @@
+body {
+  background: #111;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+}
+
+/* Überschrift */
+h1 {
+  margin-top: 10px;
+}
+
+/* Navigation */
+#nav {
+  margin: 15px 0;
+}
+
+#nav button {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  background: #222;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#nav button:hover {
+  background: #333;
+}
+
+/* Tabs */
+.tab {
+  margin-top: 20px;
+}
+
+/* Buttons allgemein */
+button {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  background: #2c2c2c;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #444;
+}
+
+/* Login */
+#login input {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 200px;
+  border-radius: 8px;
+  border: none;
+}
+
+/* PWM Slider */
+#pwmSlider {
+  width: 200px;
+}
+
+/* Gassi Timer */
+#gassiTime {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Statistik */
+pre {
+  text-align: left;
+  background: #1a1a1a;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 300px;
+  margin: auto;
+  overflow-x: auto;
+}
+
+/* Canvas */
+canvas {
+  margin-top: 15px;
+  background: #fff;
+  border-radius: 10px;
+}
+
+/* Mobile Optimierung */
+@media (max-width: 600px) {
+  #pwmSlider {
+    width: 100%;
+  }
+
+  #login input {
+    width: 90%;
+  }
+
+  canvas {
+    width: 100% !important;
+  }
+}
